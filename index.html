@@ -684,15 +684,14 @@
             playerBullets = playerBullets.filter(b => { b.y -= bulletSpeed; if (b.dx) b.x += b.dx; return b.y > -20 && b.x > 0 && b.x < 560; });
             alienBullets = alienBullets.filter(b => { b.y += 4; return b.y < 620; });
         }
-        function updateAliens() {
+        ffunction updateAliens() {
             let hitEdge = false, lowestY = 0;
             alienCrabOffset += alienCrabSpeed * alienCrabDirection;
             if (Math.abs(alienCrabOffset) > 15) alienCrabDirection *= -1;
             aliens.forEach(a => {
                 if (!a.alive) return;
                 a.x += alienSpeed * alienDirection;
-                const rowSway = Math.sin((alienCrabOffset + a.row * 5) * 0.1) * 3;
-                if (a.x + rowSway <= 0 || a.x + rowSway + 35 >= 560) hitEdge = true;
+                if (a.x <= 5 || a.x + 35 >= 555) hitEdge = true;
                 if (a.y > lowestY) lowestY = a.y;
             });
             if (hitEdge) { alienDirection *= -1; aliens.forEach(a => { if (a.alive) a.y += 15; }); }
