@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Space Invaders</title>
+    <title>Green Zone Defence</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         * {
@@ -449,10 +449,11 @@
             <canvas id="gameCanvas" width="560" height="600"></canvas>
             <div id="powerupIndicator" class="powerup-indicator"></div>
             <div id="startOverlay" class="overlay">
-                <div class="title">SPACE</div>
-                <div class="title" style="color: #ff6b6b; text-shadow: 0 0 20px #ff6b6b, 0 0 40px #ff6b6b;">INVADERS
+                <canvas id="eyesCanvas" width="200" height="80" style="margin-bottom: 10px;"></canvas>
+                <div class="title">GREEN ZONE </div>
+                <div class="title" style="color: #ff6b6b; text-shadow: 0 0 20px #ff6b6b, 0 0 40px #ff6b6b;">DEFENCE
                 </div>
-                <div class="subtitle">DEFEND EARTH</div>
+                <div class="subtitle">HOLD THE LINE</div>
                 <div class="difficulty-select">
                     <div class="diff-label">SELECT DIFFICULTY</div>
                     <button class="diff-btn" id="easyBtn">EASY</button>
@@ -462,6 +463,7 @@
                 </div>
             </div>
             <div id="gameOverOverlay" class="overlay hidden">
+                <canvas id="eyesCanvasGO" width="200" height="80" style="margin-bottom: 10px;"></canvas>
                 <div class="game-over-text">GAME OVER</div>
                 <div class="final-score">SCORE: <span id="finalScore">0</span></div>
                 <button class="start-btn" id="restartBtn">PLAY AGAIN</button>
@@ -807,6 +809,7 @@
             if (!demoMode && score > highScore) { highScore = score; localStorage.setItem('spaceInvadersHighScore', highScore); document.getElementById('high-score').textContent = highScore; }
             document.getElementById('finalScore').textContent = score;
             document.getElementById('gameOverOverlay').classList.remove('hidden');
+            drawGlowingEyes('eyesCanvasGO');
         }
         function shoot() {
             if (!canShoot || !gameRunning || gamePaused) return;
@@ -894,7 +897,62 @@
         document.getElementById('hardBtn').addEventListener('click', () => startGame('hard'));
         document.getElementById('demoBtn').addEventListener('click', () => startGame('easy', true));
         document.getElementById('restartBtn').addEventListener('click', () => { if (demoMode) { demoMode = false; document.getElementById('startOverlay').classList.remove('hidden'); document.getElementById('gameOverOverlay').classList.add('hidden'); } else { startGame(difficulty); } });
-    </script>
+        // ==================== GLOWING EYES ====================
+        function drawGlowingEyes(canvasId) {
+            const eyeCanvas = document.getElementById(canvasId);
+            if (!eyeCanvas) return;
+            const ectx = eyeCanvas.getContext('2d');
+            let eyeFrame = 0;
+
+            function animateEyes() {
+                ectx.clearRect(0, 0, 200, 80);
+                eyeFrame += 0.03;
+                const pulse = 0.7 + Math.sin(eyeFrame) * 0.3;
+                const glowSize = 25 + Math.sin(eyeFrame) * 5;
+
+                // Left eye glow
+                const gradL = ectx.createRadialGradient(60, 40, 5, 60, 40, glowSize);
+                gradL.addColorStop(0, `rgba(255, 255, 255, ${pulse})`);
+                gradL.addColorStop(0.3, `rgba(255, 0, 0, ${pulse * 0.9})`);
+                gradL.addColorStop(1, 'rgba(255, 0, 0, 0)');
+                ectx.fillStyle = gradL;
+                ectx.fillRect(20, 10, 80, 60);
+
+                // Left eye shape
+                ectx.fillStyle = `rgba(255, 50, 50, ${pulse})`;
+                ectx.beginPath();
+                ectx.ellipse(60, 40, 18, 10, -0.2, 0, Math.PI * 2);
+                ectx.fill();
+                ectx.fillStyle = `rgba(255, 255, 255, ${pulse})`;
+                ectx.beginPath();
+                ectx.ellipse(65, 38, 6, 4, -0.2, 0, Math.PI * 2);
+                ectx.fill();
+
+                // Right eye glow
+                const gradR = ectx.createRadialGradient(140, 40, 5, 140, 40, glowSize);
+                gradR.addColorStop(0, `rgba(255, 255, 255, ${pulse})`);
+                gradR.addColorStop(0.3, `rgba(255, 0, 0, ${pulse * 0.9})`);
+                gradR.addColorStop(1, 'rgba(255, 0, 0, 0)');
+                ectx.fillStyle = gradR;
+                ectx.fillRect(100, 10, 80, 60);
+
+                // Right eye shape
+                ectx.fillStyle = `rgba(255, 50, 50, ${pulse})`;
+                ectx.beginPath();
+                ectx.ellipse(140, 40, 18, 10, 0.2, 0, Math.PI * 2);
+                ectx.fill();
+                ectx.fillStyle = `rgba(255, 255, 255, ${pulse})`;
+                ectx.beginPath();
+                ectx.ellipse(145, 38, 6, 4, 0.2, 0, Math.PI * 2);
+                ectx.fill();
+
+                requestAnimationFrame(animateEyes);
+            }
+            animateEyes();
+        }
+
+        // Start eyes animation on title screen
+        drawGlowingEyes('eyesCanvas');</script>
 </body>
 
 </html>
