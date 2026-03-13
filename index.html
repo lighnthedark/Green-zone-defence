@@ -612,6 +612,139 @@
             border-color: #fff;
             color: #fff;
         }
+
+        /* Auth Styles */
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .auth-form.hidden {
+            display: none;
+        }
+
+        .auth-title {
+            color: #ffd93d;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #ffd93d;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid #00ff88;
+            color: #00ff88;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            outline: none;
+            text-transform: uppercase;
+        }
+
+        .auth-input::placeholder {
+            color: rgba(0, 255, 136, 0.5);
+        }
+
+        .auth-input:focus {
+            background: rgba(0, 255, 136, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .auth-btn {
+            background: transparent;
+            border: 2px solid #00ff88;
+            color: #00ff88;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            padding: 12px 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px #00ff88;
+            margin: 5px;
+        }
+
+        .auth-btn:hover {
+            background: #00ff88;
+            color: #0a0a0f;
+            box-shadow: 0 0 20px #00ff88;
+        }
+
+        .auth-btn.signup {
+            border-color: #ffd93d;
+            color: #ffd93d;
+            text-shadow: 0 0 10px #ffd93d;
+        }
+
+        .auth-btn.signup:hover {
+            background: #ffd93d;
+            color: #0a0a0f;
+            box-shadow: 0 0 20px #ffd93d;
+        }
+
+        .auth-btn.guest {
+            border-color: #666;
+            color: #666;
+            text-shadow: none;
+            margin-top: 15px;
+        }
+
+        .auth-btn.guest:hover {
+            border-color: #999;
+            color: #999;
+        }
+
+        .auth-btn.back {
+            border-color: #666;
+            color: #666;
+            text-shadow: none;
+        }
+
+        .auth-btn.logout {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+            text-shadow: 0 0 10px #ff6b6b;
+            margin-top: 20px;
+        }
+
+        .auth-btn.logout:hover {
+            background: #ff6b6b;
+            color: #0a0a0f;
+        }
+
+        .auth-error {
+            color: #ff6b6b;
+            font-size: 8px;
+            text-align: center;
+            min-height: 20px;
+        }
+
+        .welcome-msg {
+            color: #4ecdc4;
+            font-size: 10px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #4ecdc4;
+        }
+
+        .welcome-msg.hidden {
+            display: none;
+        }
+
+        #authSection {
+            text-align: center;
+        }
+
+        #authButtons {
+            margin-bottom: 10px;
+        }
+
+        #gameMenu.hidden {
+            display: none;
+        }
     </style>
 </head>
 
@@ -633,13 +766,49 @@
                 <div class="title" style="color: #ff6b6b; text-shadow: 0 0 20px #ff6b6b, 0 0 40px #ff6b6b;">DEFENCE
                 </div>
                 <div class="subtitle">HOLD THE LINE</div>
-                <div class="difficulty-select">
-                    <div class="diff-label">SELECT DIFFICULTY</div>
-                    <button class="diff-btn" id="easyBtn">EASY</button>
-                    <button class="diff-btn" id="normalBtn">NORMAL</button>
-                    <button class="diff-btn" id="hardBtn">HARD</button>
-                    <button class="diff-btn" id="demoBtn">DEMO MODE</button>
-                    <button class="diff-btn" id="leaderboardBtn">LEADERBOARD</button>
+
+                <!-- Auth Section -->
+                <div id="authSection">
+                    <div id="welcomeUser" class="welcome-msg hidden"></div>
+                    <div id="authButtons">
+                        <button class="auth-btn" id="showLoginBtn">LOG IN</button>
+                        <button class="auth-btn signup" id="showSignupBtn">SIGN UP</button>
+                    </div>
+                    <button class="auth-btn guest" id="guestBtn">PLAY AS GUEST</button>
+                </div>
+
+                <!-- Login Form -->
+                <div id="loginForm" class="auth-form hidden">
+                    <div class="auth-title">LOG IN</div>
+                    <input type="email" id="loginEmail" class="auth-input" placeholder="EMAIL">
+                    <input type="password" id="loginPassword" class="auth-input" placeholder="PASSWORD">
+                    <div id="loginError" class="auth-error"></div>
+                    <button class="auth-btn" id="loginBtn">LOG IN</button>
+                    <button class="auth-btn back" id="backFromLogin">BACK</button>
+                </div>
+
+                <!-- Signup Form -->
+                <div id="signupForm" class="auth-form hidden">
+                    <div class="auth-title">SIGN UP</div>
+                    <input type="text" id="signupName" class="auth-input" placeholder="DISPLAY NAME">
+                    <input type="email" id="signupEmail" class="auth-input" placeholder="EMAIL">
+                    <input type="password" id="signupPassword" class="auth-input" placeholder="PASSWORD (6+ CHARS)">
+                    <div id="signupError" class="auth-error"></div>
+                    <button class="auth-btn signup" id="signupBtn">CREATE ACCOUNT</button>
+                    <button class="auth-btn back" id="backFromSignup">BACK</button>
+                </div>
+
+                <!-- Game Menu (shown after login) -->
+                <div id="gameMenu" class="hidden">
+                    <div class="difficulty-select">
+                        <div class="diff-label">SELECT DIFFICULTY</div>
+                        <button class="diff-btn" id="easyBtn">EASY</button>
+                        <button class="diff-btn" id="normalBtn">NORMAL</button>
+                        <button class="diff-btn" id="hardBtn">HARD</button>
+                        <button class="diff-btn" id="demoBtn">DEMO MODE</button>
+                        <button class="diff-btn" id="leaderboardBtn">LEADERBOARD</button>
+                    </div>
+                    <button class="auth-btn logout" id="logoutBtn">LOG OUT</button>
                 </div>
             </div>
 
@@ -697,8 +866,200 @@
         const SUPABASE_URL = 'https://bzhcemqrgkuuybvygnkc.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6aGNlbXFyZ2t1dXlidnlnbmtjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0MTMwMzYsImV4cCI6MjA4ODk4OTAzNn0.d55Oc_pYlcp7Yp8ncKG-0W46XNstN7tp2HaWlVUixA0';
 
+        let currentUser = null;
+        let userDisplayName = null;
+
+        // ==================== AUTH FUNCTIONS ====================
+        async function signUp(email, password, displayName) {
+            try {
+                const response = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email,
+                        password,
+                        data: { display_name: displayName }
+                    })
+                });
+                const data = await response.json();
+                if (data.error) throw new Error(data.error.message || data.msg);
+                if (data.user) {
+                    currentUser = data.user;
+                    userDisplayName = displayName;
+                    localStorage.setItem('gzd_user', JSON.stringify({ user: data.user, displayName }));
+                    localStorage.setItem('gzd_session', JSON.stringify(data.session));
+                }
+                return { success: true, data };
+            } catch (e) {
+                return { success: false, error: e.message };
+            }
+        }
+
+        async function logIn(email, password) {
+            try {
+                const response = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+                if (data.error) throw new Error(data.error.message || data.msg);
+                if (data.user) {
+                    currentUser = data.user;
+                    userDisplayName = data.user.user_metadata?.display_name || email.split('@')[0];
+                    localStorage.setItem('gzd_user', JSON.stringify({ user: data.user, displayName: userDisplayName }));
+                    localStorage.setItem('gzd_session', JSON.stringify({ access_token: data.access_token, refresh_token: data.refresh_token }));
+                }
+                return { success: true, data };
+            } catch (e) {
+                return { success: false, error: e.message };
+            }
+        }
+
+        function logOut() {
+            currentUser = null;
+            userDisplayName = null;
+            localStorage.removeItem('gzd_user');
+            localStorage.removeItem('gzd_session');
+            showAuthSection();
+        }
+
+        function checkExistingSession() {
+            const stored = localStorage.getItem('gzd_user');
+            if (stored) {
+                const { user, displayName } = JSON.parse(stored);
+                currentUser = user;
+                userDisplayName = displayName;
+                showGameMenu();
+            }
+        }
+
+        function showAuthSection() {
+            document.getElementById('authSection').classList.remove('hidden');
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('signupForm').classList.add('hidden');
+            document.getElementById('gameMenu').classList.add('hidden');
+            document.getElementById('authButtons').style.display = 'block';
+            document.getElementById('guestBtn').style.display = 'block';
+            document.getElementById('welcomeUser').classList.add('hidden');
+        }
+
+        function showLoginForm() {
+            document.getElementById('authSection').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('loginError').textContent = '';
+        }
+
+        function showSignupForm() {
+            document.getElementById('authSection').classList.add('hidden');
+            document.getElementById('signupForm').classList.remove('hidden');
+            document.getElementById('signupError').textContent = '';
+        }
+
+        function showGameMenu() {
+            document.getElementById('authSection').classList.remove('hidden');
+            document.getElementById('authButtons').style.display = 'none';
+            document.getElementById('guestBtn').style.display = 'none';
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('signupForm').classList.add('hidden');
+            document.getElementById('gameMenu').classList.remove('hidden');
+
+            const welcomeEl = document.getElementById('welcomeUser');
+            welcomeEl.textContent = `WELCOME, ${(userDisplayName || 'PLAYER').toUpperCase()}!`;
+            welcomeEl.classList.remove('hidden');
+        }
+
+        function playAsGuest() {
+            currentUser = null;
+            userDisplayName = 'GUEST';
+            document.getElementById('authSection').classList.add('hidden');
+            document.getElementById('gameMenu').classList.remove('hidden');
+            document.getElementById('welcomeUser').textContent = 'PLAYING AS GUEST';
+            document.getElementById('welcomeUser').classList.remove('hidden');
+            document.getElementById('logoutBtn').textContent = 'BACK';
+        }
+
+        // Auth event listeners
+        document.getElementById('showLoginBtn').addEventListener('click', showLoginForm);
+        document.getElementById('showSignupBtn').addEventListener('click', showSignupForm);
+        document.getElementById('backFromLogin').addEventListener('click', showAuthSection);
+        document.getElementById('backFromSignup').addEventListener('click', showAuthSection);
+        document.getElementById('guestBtn').addEventListener('click', playAsGuest);
+        document.getElementById('logoutBtn').addEventListener('click', logOut);
+
+        document.getElementById('loginBtn').addEventListener('click', async () => {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorEl = document.getElementById('loginError');
+
+            if (!email || !password) {
+                errorEl.textContent = 'FILL IN ALL FIELDS';
+                return;
+            }
+
+            const btn = document.getElementById('loginBtn');
+            btn.textContent = 'LOGGING IN...';
+            btn.disabled = true;
+
+            const result = await logIn(email, password);
+
+            if (result.success) {
+                showGameMenu();
+            } else {
+                errorEl.textContent = result.error.toUpperCase();
+            }
+
+            btn.textContent = 'LOG IN';
+            btn.disabled = false;
+        });
+
+        document.getElementById('signupBtn').addEventListener('click', async () => {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const errorEl = document.getElementById('signupError');
+
+            if (!name || !email || !password) {
+                errorEl.textContent = 'FILL IN ALL FIELDS';
+                return;
+            }
+
+            if (password.length < 6) {
+                errorEl.textContent = 'PASSWORD TOO SHORT';
+                return;
+            }
+
+            const btn = document.getElementById('signupBtn');
+            btn.textContent = 'CREATING...';
+            btn.disabled = true;
+
+            const result = await signUp(email, password, name);
+
+            if (result.success) {
+                showGameMenu();
+            } else {
+                errorEl.textContent = result.error.toUpperCase();
+            }
+
+            btn.textContent = 'CREATE ACCOUNT';
+            btn.disabled = false;
+        });
+
         async function submitScore(initials, score, difficulty) {
             try {
+                const payload = { initials, score, difficulty };
+                // If logged in, add user info
+                if (currentUser && currentUser.id) {
+                    payload.user_id = currentUser.id;
+                    payload.display_name = userDisplayName;
+                }
+
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/leaderboard`, {
                     method: 'POST',
                     headers: {
@@ -707,7 +1068,7 @@
                         'Content-Type': 'application/json',
                         'Prefer': 'return=minimal'
                     },
-                    body: JSON.stringify({ initials, score, difficulty })
+                    body: JSON.stringify(payload)
                 });
                 return response.ok;
             } catch (e) {
@@ -1383,6 +1744,7 @@
         // ==================== INIT ====================
         setupLetterPicker();
         drawGlowingEyes('eyesCanvas');
+        checkExistingSession();
         document.addEventListener('contextmenu', e => e.preventDefault());
 
         console.log('%c⚠️ GREEN ZONE DEFENCE', 'font-size: 24px; font-weight: bold; color: #ff6b6b;');
