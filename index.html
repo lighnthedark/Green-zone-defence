@@ -102,7 +102,9 @@
             .header {
                 flex-wrap: wrap;
                 gap: 5px;
-                justify-content: center;
+                justify-content: flex-start;
+                padding: 20px;
+                box-sizing: border-box;
             }
 
             .score-display,
@@ -127,6 +129,47 @@
 
             .credit {
                 font-size: 5px;
+            }
+
+            #eyesCanvasGO {
+                width: 120px;
+                height: 48px;
+                margin-bottom: 5px;
+            }
+
+            .game-over-text {
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+
+            .final-score {
+                font-size: 10px;
+                margin-bottom: 10px;
+            }
+
+            .initials-entry {
+                margin: 8px 0;
+            }
+
+            .initials-label {
+                font-size: 8px;
+                margin-bottom: 8px;
+            }
+
+            .initials-slots {
+                margin-bottom: 10px;
+            }
+
+            .letter-picker {
+                max-width: 260px;
+                gap: 3px;
+                margin-bottom: 8px;
+            }
+
+            .letter-btn {
+                width: 24px;
+                height: 24px;
+                font-size: 7px;
             }
         }
 
@@ -161,7 +204,7 @@
             background: #000;
             border: 3px solid #333;
             border-radius: 4px;
-            overflow: hidden;
+            overflow: auto;
         }
 
         .game-screen::after {
@@ -205,12 +248,15 @@
             left: 0;
             width: 100%;
             height: 100%;
+            overflow-y: auto;
             background: rgba(0, 0, 0, 0.9);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
+            padding-top: 20px;
             z-index: 20;
+            touch-action: auto;
         }
 
         .overlay.hidden {
@@ -337,6 +383,7 @@
             cursor: pointer;
             text-shadow: 0 0 10px #00ff88;
             margin-top: 10px;
+            touch-action: manipulation;
         }
 
         .start-btn:hover {
@@ -425,6 +472,7 @@
             border-radius: 5px;
             cursor: pointer;
             user-select: none;
+            touch-action: manipulation;
         }
 
         .mode-btn.active {
@@ -470,7 +518,6 @@
             }
         }
 
-        /* Initials Entry Styles */
         .initials-entry {
             display: flex;
             flex-direction: column;
@@ -504,6 +551,7 @@
             text-shadow: 0 0 10px #00ff88;
             cursor: pointer;
             transition: all 0.2s;
+            touch-action: manipulation;
         }
 
         .initial-slot.active {
@@ -534,6 +582,7 @@
             font-size: 10px;
             cursor: pointer;
             transition: all 0.2s;
+            touch-action: manipulation;
         }
 
         .letter-btn:hover {
@@ -541,7 +590,6 @@
             color: #0a0a0f;
         }
 
-        /* Leaderboard Styles */
         .leaderboard-title {
             color: #ffd93d;
             font-size: 14px;
@@ -606,6 +654,7 @@
             padding: 10px 20px;
             cursor: pointer;
             margin-top: 10px;
+            touch-action: manipulation;
         }
 
         .back-btn:hover {
@@ -613,7 +662,6 @@
             color: #fff;
         }
 
-        /* Auth Styles */
         .auth-form {
             display: flex;
             flex-direction: column;
@@ -666,6 +714,7 @@
             transition: all 0.3s ease;
             text-shadow: 0 0 10px #00ff88;
             margin: 5px;
+            touch-action: manipulation;
         }
 
         .auth-btn:hover {
@@ -759,7 +808,6 @@
             <canvas id="gameCanvas" width="560" height="600"></canvas>
             <div id="powerupIndicator" class="powerup-indicator"></div>
 
-            <!-- Start Overlay -->
             <div id="startOverlay" class="overlay">
                 <canvas id="eyesCanvas" width="200" height="80" style="margin-bottom: 10px;"></canvas>
                 <div class="title">GREEN ZONE</div>
@@ -767,7 +815,6 @@
                 </div>
                 <div class="subtitle">HOLD THE LINE</div>
 
-                <!-- Auth Section -->
                 <div id="authSection">
                     <div id="welcomeUser" class="welcome-msg hidden"></div>
                     <div id="authButtons">
@@ -777,7 +824,6 @@
                     <button class="auth-btn guest" id="guestBtn">PLAY AS GUEST</button>
                 </div>
 
-                <!-- Login Form -->
                 <div id="loginForm" class="auth-form hidden">
                     <div class="auth-title">LOG IN</div>
                     <input type="email" id="loginEmail" class="auth-input" placeholder="EMAIL">
@@ -787,7 +833,6 @@
                     <button class="auth-btn back" id="backFromLogin">BACK</button>
                 </div>
 
-                <!-- Signup Form -->
                 <div id="signupForm" class="auth-form hidden">
                     <div class="auth-title">SIGN UP</div>
                     <input type="text" id="signupName" class="auth-input" placeholder="DISPLAY NAME">
@@ -798,7 +843,6 @@
                     <button class="auth-btn back" id="backFromSignup">BACK</button>
                 </div>
 
-                <!-- Game Menu (shown after login) -->
                 <div id="gameMenu" class="hidden">
                     <div class="difficulty-select">
                         <div class="diff-label">SELECT DIFFICULTY</div>
@@ -812,13 +856,11 @@
                 </div>
             </div>
 
-            <!-- Game Over Overlay -->
             <div id="gameOverOverlay" class="overlay hidden">
                 <canvas id="eyesCanvasGO" width="200" height="80" style="margin-bottom: 10px;"></canvas>
                 <div class="game-over-text">GAME OVER</div>
                 <div class="final-score">SCORE: <span id="finalScore">0</span></div>
 
-                <!-- Initials Entry -->
                 <div class="initials-entry" id="initialsEntry">
                     <div class="initials-label">ENTER YOUR INITIALS</div>
                     <div class="initials-slots">
@@ -833,7 +875,6 @@
                 <button class="start-btn hidden" id="restartBtn">PLAY AGAIN</button>
             </div>
 
-            <!-- Leaderboard Overlay -->
             <div id="leaderboardOverlay" class="overlay hidden">
                 <div class="leaderboard-title">TOP SCORES</div>
                 <div class="leaderboard-list" id="leaderboardList">
@@ -862,27 +903,22 @@
          * linkedin.com/in/spencer-green-70846131
          */
 
-        // ==================== SUPABASE CONFIG ====================
         const SUPABASE_URL = 'https://bzhcemqrgkuuybvygnkc.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6aGNlbXFyZ2t1dXlidnlnbmtjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0MTMwMzYsImV4cCI6MjA4ODk4OTAzNn0.d55Oc_pYlcp7Yp8ncKG-0W46XNstN7tp2HaWlVUixA0';
 
         let currentUser = null;
         let userDisplayName = null;
 
-        // ==================== AUTH FUNCTIONS ====================
+        function isGameOverVisible() {
+            return !document.getElementById('gameOverOverlay').classList.contains('hidden');
+        }
+
         async function signUp(email, password, displayName) {
             try {
                 const response = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
                     method: 'POST',
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        email,
-                        password,
-                        data: { display_name: displayName }
-                    })
+                    headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, data: { display_name: displayName } })
                 });
                 const data = await response.json();
                 if (data.error) throw new Error(data.error.message || data.msg);
@@ -893,19 +929,14 @@
                     localStorage.setItem('gzd_session', JSON.stringify(data.session));
                 }
                 return { success: true, data };
-            } catch (e) {
-                return { success: false, error: e.message };
-            }
+            } catch (e) { return { success: false, error: e.message }; }
         }
 
         async function logIn(email, password) {
             try {
                 const response = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
                     method: 'POST',
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
                 });
                 const data = await response.json();
@@ -917,16 +948,12 @@
                     localStorage.setItem('gzd_session', JSON.stringify({ access_token: data.access_token, refresh_token: data.refresh_token }));
                 }
                 return { success: true, data };
-            } catch (e) {
-                return { success: false, error: e.message };
-            }
+            } catch (e) { return { success: false, error: e.message }; }
         }
 
         function logOut() {
-            currentUser = null;
-            userDisplayName = null;
-            localStorage.removeItem('gzd_user');
-            localStorage.removeItem('gzd_session');
+            currentUser = null; userDisplayName = null;
+            localStorage.removeItem('gzd_user'); localStorage.removeItem('gzd_session');
             showAuthSection();
         }
 
@@ -934,8 +961,7 @@
             const stored = localStorage.getItem('gzd_user');
             if (stored) {
                 const { user, displayName } = JSON.parse(stored);
-                currentUser = user;
-                userDisplayName = displayName;
+                currentUser = user; userDisplayName = displayName;
                 showGameMenu();
             }
         }
@@ -969,15 +995,13 @@
             document.getElementById('loginForm').classList.add('hidden');
             document.getElementById('signupForm').classList.add('hidden');
             document.getElementById('gameMenu').classList.remove('hidden');
-
             const welcomeEl = document.getElementById('welcomeUser');
             welcomeEl.textContent = `WELCOME, ${(userDisplayName || 'PLAYER').toUpperCase()}!`;
             welcomeEl.classList.remove('hidden');
         }
 
         function playAsGuest() {
-            currentUser = null;
-            userDisplayName = 'GUEST';
+            currentUser = null; userDisplayName = 'GUEST';
             document.getElementById('authSection').classList.add('hidden');
             document.getElementById('gameMenu').classList.remove('hidden');
             document.getElementById('welcomeUser').textContent = 'PLAYING AS GUEST';
@@ -985,7 +1009,6 @@
             document.getElementById('logoutBtn').textContent = 'BACK';
         }
 
-        // Auth event listeners
         document.getElementById('showLoginBtn').addEventListener('click', showLoginForm);
         document.getElementById('showSignupBtn').addEventListener('click', showSignupForm);
         document.getElementById('backFromLogin').addEventListener('click', showAuthSection);
@@ -997,26 +1020,13 @@
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             const errorEl = document.getElementById('loginError');
-
-            if (!email || !password) {
-                errorEl.textContent = 'FILL IN ALL FIELDS';
-                return;
-            }
-
+            if (!email || !password) { errorEl.textContent = 'FILL IN ALL FIELDS'; return; }
             const btn = document.getElementById('loginBtn');
-            btn.textContent = 'LOGGING IN...';
-            btn.disabled = true;
-
+            btn.textContent = 'LOGGING IN...'; btn.disabled = true;
+            await new Promise(resolve => setTimeout(resolve, 500));
             const result = await logIn(email, password);
-
-            if (result.success) {
-                showGameMenu();
-            } else {
-                errorEl.textContent = result.error.toUpperCase();
-            }
-
-            btn.textContent = 'LOG IN';
-            btn.disabled = false;
+            if (result.success) { showGameMenu(); } else { errorEl.textContent = result.error.toUpperCase(); }
+            btn.textContent = 'LOG IN'; btn.disabled = false;
         });
 
         document.getElementById('signupBtn').addEventListener('click', async () => {
@@ -1024,79 +1034,38 @@
             const email = document.getElementById('signupEmail').value;
             const password = document.getElementById('signupPassword').value;
             const errorEl = document.getElementById('signupError');
-
-            if (!name || !email || !password) {
-                errorEl.textContent = 'FILL IN ALL FIELDS';
-                return;
-            }
-
-            if (password.length < 6) {
-                errorEl.textContent = 'PASSWORD TOO SHORT';
-                return;
-            }
-
+            if (!name || !email || !password) { errorEl.textContent = 'FILL IN ALL FIELDS'; return; }
+            if (password.length < 6) { errorEl.textContent = 'PASSWORD TOO SHORT'; return; }
             const btn = document.getElementById('signupBtn');
-            btn.textContent = 'CREATING...';
-            btn.disabled = true;
-
+            btn.textContent = 'CREATING...'; btn.disabled = true;
             const result = await signUp(email, password, name);
-
-            if (result.success) {
-                showGameMenu();
-            } else {
-                errorEl.textContent = result.error.toUpperCase();
-            }
-
-            btn.textContent = 'CREATE ACCOUNT';
-            btn.disabled = false;
+            if (result.success) { showGameMenu(); } else { errorEl.textContent = result.error.toUpperCase(); }
+            btn.textContent = 'CREATE ACCOUNT'; btn.disabled = false;
         });
 
         async function submitScore(initials, score, difficulty) {
             try {
                 const payload = { initials, score, difficulty };
-                // If logged in, add user info
-                if (currentUser && currentUser.id) {
-                    payload.user_id = currentUser.id;
-                    payload.display_name = userDisplayName;
-                }
-
+                if (currentUser && currentUser.id) { payload.user_id = currentUser.id; payload.display_name = userDisplayName; }
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/leaderboard`, {
                     method: 'POST',
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Authorization': `Bearer ${SUPABASE_KEY}`,
-                        'Content-Type': 'application/json',
-                        'Prefer': 'return=minimal'
-                    },
+                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
                     body: JSON.stringify(payload)
                 });
                 return response.ok;
-            } catch (e) {
-                console.error('Error submitting score:', e);
-                return false;
-            }
+            } catch (e) { console.error('Error submitting score:', e); return false; }
         }
 
         async function fetchLeaderboard() {
             try {
-                const response = await fetch(
-                    `${SUPABASE_URL}/rest/v1/leaderboard?select=*&order=score.desc&limit=10`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Authorization': `Bearer ${SUPABASE_KEY}`
-                        }
-                    }
-                );
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/leaderboard?select=*&order=score.desc&limit=10`, {
+                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+                });
                 if (response.ok) return await response.json();
                 return [];
-            } catch (e) {
-                console.error('Error fetching leaderboard:', e);
-                return [];
-            }
+            } catch (e) { console.error('Error fetching leaderboard:', e); return []; }
         }
 
-        // ==================== INITIALS ENTRY ====================
         let currentSlot = 0;
         const initials = ['A', 'A', 'A'];
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('');
@@ -1116,97 +1085,56 @@
         function selectLetter(letter) {
             initials[currentSlot] = letter;
             updateSlotDisplay();
-            if (currentSlot < 2) {
-                currentSlot++;
-                updateActiveSlot();
-            }
+            if (currentSlot < 2) { currentSlot++; updateActiveSlot(); }
         }
 
         function updateSlotDisplay() {
-            document.querySelectorAll('.initial-slot').forEach((slot, i) => {
-                slot.textContent = initials[i];
-            });
+            document.querySelectorAll('.initial-slot').forEach((slot, i) => { slot.textContent = initials[i]; });
         }
 
         function updateActiveSlot() {
-            document.querySelectorAll('.initial-slot').forEach((slot, i) => {
-                slot.classList.toggle('active', i === currentSlot);
-            });
+            document.querySelectorAll('.initial-slot').forEach((slot, i) => { slot.classList.toggle('active', i === currentSlot); });
         }
 
         document.querySelectorAll('.initial-slot').forEach(slot => {
-            slot.addEventListener('click', () => {
-                currentSlot = parseInt(slot.dataset.index);
-                updateActiveSlot();
-            });
+            slot.addEventListener('click', () => { currentSlot = parseInt(slot.dataset.index); updateActiveSlot(); });
         });
 
         document.getElementById('submitScoreBtn').addEventListener('click', async () => {
             const btn = document.getElementById('submitScoreBtn');
-            btn.textContent = 'SUBMITTING...';
-            btn.disabled = true;
-
+            btn.textContent = 'SUBMITTING...'; btn.disabled = true;
             const playerInitials = initials.join('');
             const success = await submitScore(playerInitials, score, difficulty);
-
             if (success) {
                 btn.textContent = 'SUBMITTED!';
                 document.getElementById('initialsEntry').classList.add('hidden');
                 document.getElementById('restartBtn').classList.remove('hidden');
                 showLeaderboardAfterSubmit();
-            } else {
-                btn.textContent = 'ERROR - TRY AGAIN';
-                btn.disabled = false;
-            }
+            } else { btn.textContent = 'ERROR - TRY AGAIN'; btn.disabled = false; }
         });
 
         async function showLeaderboardAfterSubmit() {
             const list = document.getElementById('leaderboardList');
             list.innerHTML = '<div class="leaderboard-loading">LOADING...</div>';
-
             const scores = await fetchLeaderboard();
             displayLeaderboard(scores);
         }
 
-        // ==================== LEADERBOARD DISPLAY ====================
         function displayLeaderboard(scores) {
             const list = document.getElementById('leaderboardList');
-
-            if (scores.length === 0) {
-                list.innerHTML = '<div class="leaderboard-loading">NO SCORES YET</div>';
-                return;
-            }
-
-            let html = `
-                <div class="leaderboard-row header">
-                    <span class="rank">#</span>
-                    <span class="initials">NAME</span>
-                    <span class="lb-score">SCORE</span>
-                    <span class="lb-diff">MODE</span>
-                </div>
-            `;
-
+            if (scores.length === 0) { list.innerHTML = '<div class="leaderboard-loading">NO SCORES YET</div>'; return; }
+            let html = `<div class="leaderboard-row header"><span class="rank">#</span><span class="initials">NAME</span><span class="lb-score">SCORE</span><span class="lb-diff">MODE</span></div>`;
             scores.forEach((entry, i) => {
-                html += `
-                    <div class="leaderboard-row">
-                        <span class="rank">${i + 1}</span>
-                        <span class="initials">${entry.initials}</span>
-                        <span class="lb-score">${entry.score}</span>
-                        <span class="lb-diff">${entry.difficulty.toUpperCase()}</span>
-                    </div>
-                `;
+                html += `<div class="leaderboard-row"><span class="rank">${i + 1}</span><span class="initials">${entry.initials}</span><span class="lb-score">${entry.score}</span><span class="lb-diff">${entry.difficulty.toUpperCase()}</span></div>`;
             });
-
             list.innerHTML = html;
         }
 
         document.getElementById('leaderboardBtn').addEventListener('click', async () => {
             document.getElementById('startOverlay').classList.add('hidden');
             document.getElementById('leaderboardOverlay').classList.remove('hidden');
-
             const list = document.getElementById('leaderboardList');
             list.innerHTML = '<div class="leaderboard-loading">LOADING...</div>';
-
             const scores = await fetchLeaderboard();
             displayLeaderboard(scores);
         });
@@ -1216,7 +1144,6 @@
             document.getElementById('startOverlay').classList.remove('hidden');
         });
 
-        // ==================== AUDIO ENGINE ====================
         const AudioEngine = {
             ctx: null, musicGain: null, musicPlaying: false, musicStep: 0, musicInterval: null,
             init() {
@@ -1264,7 +1191,6 @@
             stopMusic() { this.musicPlaying = false; if (this.musicInterval) { clearInterval(this.musicInterval); this.musicInterval = null; } }
         };
 
-        // ==================== GAME SETUP ====================
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         let gameRunning = false, gamePaused = false, score = 0, lives = 3, wave = 1, difficulty = 'normal';
@@ -1297,7 +1223,6 @@
         };
         const totalAliens = 55;
 
-        // ==================== INIT FUNCTIONS ====================
         function initAliens() {
             aliens = [];
             for (let row = 0; row < 5; row++) {
@@ -1325,7 +1250,6 @@
             });
         }
 
-        // ==================== DRAW FUNCTIONS ====================
         function drawBackground() {
             bgStars.forEach(s => {
                 s.y += s.speed;
@@ -1336,13 +1260,9 @@
         }
 
         function drawWatermark() {
-            ctx.save();
-            ctx.globalAlpha = 0.15;
-            ctx.fillStyle = '#00ff88';
-            ctx.font = '8px "Press Start 2P", monospace';
-            ctx.textAlign = 'right';
-            ctx.fillText('© Spencer Green', 555, 595);
-            ctx.restore();
+            ctx.save(); ctx.globalAlpha = 0.15; ctx.fillStyle = '#00ff88';
+            ctx.font = '8px "Press Start 2P", monospace'; ctx.textAlign = 'right';
+            ctx.fillText('© Spencer Green', 555, 595); ctx.restore();
         }
 
         function drawPlayer() {
@@ -1351,8 +1271,7 @@
                 ctx.beginPath(); ctx.ellipse(player.x + 25, player.y + 15, 32, 22, 0, 0, Math.PI * 2); ctx.stroke(); ctx.shadowBlur = 0;
             }
             ctx.fillStyle = playerSpreadShot ? '#ffd93d' : '#00ff88';
-            ctx.shadowColor = playerSpreadShot ? '#ffd93d' : '#00ff88';
-            ctx.shadowBlur = 10;
+            ctx.shadowColor = playerSpreadShot ? '#ffd93d' : '#00ff88'; ctx.shadowBlur = 10;
             ctx.beginPath(); ctx.moveTo(player.x + 25, player.y); ctx.lineTo(player.x + 50, player.y + 30); ctx.lineTo(player.x, player.y + 30); ctx.closePath(); ctx.fill();
             ctx.fillStyle = '#4ecdc4'; ctx.fillRect(player.x + 20, player.y + 8, 10, 8); ctx.shadowBlur = 0;
         }
@@ -1411,7 +1330,6 @@
             });
         }
 
-        // ==================== UPDATE FUNCTIONS ====================
         function updatePlayer() {
             if (demoMode) {
                 const alive = aliens.filter(a => a.alive);
@@ -1496,7 +1414,6 @@
 
         function updateExplosions() { explosions = explosions.filter(e => { e.frame++; return e.frame < e.maxFrames; }); }
 
-        // ==================== COLLISIONS ====================
         function checkCollisions() {
             playerBullets.forEach((b, bi) => {
                 aliens.forEach(a => {
@@ -1532,7 +1449,6 @@
             if (aliens.every(a => !a.alive)) nextWave();
         }
 
-        // ==================== GAME FLOW ====================
         function loseLife() {
             lives--; document.getElementById('lives').textContent = lives;
             explosions.push({ x: player.x + 25, y: player.y + 15, frame: 0, maxFrames: 30, radius: 40, color: '#00ff88' });
@@ -1561,33 +1477,24 @@
 
         function gameOver() {
             gameRunning = false; stopAutoFire(); AudioEngine.stopMusic(); AudioEngine.gameOverSound();
-
             if (demoMode) {
-                setTimeout(() => {
-                    document.getElementById('gameOverOverlay').classList.add('hidden');
-                    startGame('easy', true);
-                }, 3000);
+                setTimeout(() => { document.getElementById('gameOverOverlay').classList.add('hidden'); startGame('easy', true); }, 3000);
                 document.getElementById('initialsEntry').classList.add('hidden');
                 document.getElementById('restartBtn').classList.remove('hidden');
             } else {
-                // Reset initials entry for new score
                 currentSlot = 0;
                 initials[0] = 'A'; initials[1] = 'A'; initials[2] = 'A';
-                updateSlotDisplay();
-                updateActiveSlot();
+                updateSlotDisplay(); updateActiveSlot();
                 document.getElementById('initialsEntry').classList.remove('hidden');
                 document.getElementById('restartBtn').classList.add('hidden');
                 const submitBtn = document.getElementById('submitScoreBtn');
-                submitBtn.textContent = 'SUBMIT SCORE';
-                submitBtn.disabled = false;
+                submitBtn.textContent = 'SUBMIT SCORE'; submitBtn.disabled = false;
             }
-
             if (!demoMode && score > highScore) {
                 highScore = score;
                 localStorage.setItem('greenZoneDefenceHighScore', highScore);
                 document.getElementById('high-score').textContent = highScore;
             }
-
             document.getElementById('finalScore').textContent = score;
             document.getElementById('gameOverOverlay').classList.remove('hidden');
             drawGlowingEyes('eyesCanvasGO');
@@ -1600,16 +1507,13 @@
                 playerBullets.push({ x: player.x + 25, y: player.y, dx: 0 });
                 playerBullets.push({ x: player.x + 15, y: player.y, dx: -1.5, spread: true });
                 playerBullets.push({ x: player.x + 35, y: player.y, dx: 1.5, spread: true });
-            } else {
-                playerBullets.push({ x: player.x + 25, y: player.y });
-            }
+            } else { playerBullets.push({ x: player.x + 25, y: player.y }); }
             canShoot = false; setTimeout(() => canShoot = true, shootCooldown);
         }
 
         function startAutoFire() { if (autoFireInterval) return; shoot(); autoFireInterval = setInterval(shoot, shootCooldown + 50); }
         function stopAutoFire() { if (autoFireInterval) { clearInterval(autoFireInterval); autoFireInterval = null; } }
 
-        // ==================== GAME LOOP ====================
         function gameLoop() {
             if (!gameRunning) return;
             if (!gamePaused) {
@@ -1648,7 +1552,6 @@
             showWaveAnnouncement(); gameLoop();
         }
 
-        // ==================== CONTROLS ====================
         document.addEventListener('keydown', e => {
             if (demoMode && gameRunning) { gameRunning = false; AudioEngine.stopMusic(); demoMode = false; document.getElementById('startOverlay').classList.remove('hidden'); return; }
             if (e.key === 'ArrowLeft' || e.key === 'a') { player.dx = -player.speed; player.targetX = null; }
@@ -1666,13 +1569,30 @@
 
         canvas.addEventListener('touchstart', e => {
             if (demoMode && gameRunning) { gameRunning = false; AudioEngine.stopMusic(); demoMode = false; document.getElementById('startOverlay').classList.remove('hidden'); return; }
-            if (!gameRunning || gamePaused) return; e.preventDefault();
+            if (!gameRunning || gamePaused) return;
+            if (isGameOverVisible()) return;
+            e.preventDefault();
             if (controlMode === 'touch') { isTouching = true; player.targetX = getTouchX(e); startAutoFire(); } else { shoot(); }
         });
 
-        canvas.addEventListener('touchmove', e => { if (!gameRunning || gamePaused || controlMode !== 'touch') return; e.preventDefault(); if (isTouching) player.targetX = getTouchX(e); });
-        canvas.addEventListener('touchend', e => { e.preventDefault(); if (controlMode === 'touch') { isTouching = false; stopAutoFire(); } });
-        canvas.addEventListener('touchcancel', e => { e.preventDefault(); if (controlMode === 'touch') { isTouching = false; stopAutoFire(); } });
+        canvas.addEventListener('touchmove', e => {
+            if (!gameRunning || gamePaused || controlMode !== 'touch') return;
+            if (isGameOverVisible()) return;
+            e.preventDefault();
+            if (isTouching) player.targetX = getTouchX(e);
+        });
+
+        canvas.addEventListener('touchend', e => {
+            if (isGameOverVisible()) return;
+            e.preventDefault();
+            if (controlMode === 'touch') { isTouching = false; stopAutoFire(); }
+        });
+
+        canvas.addEventListener('touchcancel', e => {
+            if (isGameOverVisible()) return;
+            e.preventDefault();
+            if (controlMode === 'touch') { isTouching = false; stopAutoFire(); }
+        });
 
         function handleGyro(e) {
             if (!gyroEnabled || !gameRunning || gamePaused || controlMode !== 'gyro') return;
@@ -1707,7 +1627,6 @@
             else { startGame(difficulty); }
         });
 
-        // ==================== GLOWING EYES ====================
         function drawGlowingEyes(canvasId) {
             const eyeCanvas = document.getElementById(canvasId);
             if (!eyeCanvas) return;
@@ -1741,7 +1660,6 @@
             animateEyes();
         }
 
-        // ==================== INIT ====================
         setupLetterPicker();
         drawGlowingEyes('eyesCanvas');
         checkExistingSession();
